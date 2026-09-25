@@ -17,7 +17,7 @@ public sealed class MainForm : Form
     [StructLayout(LayoutKind.Sequential)]
     private struct RECT { public int Left, Top, Right, Bottom; }
 
-    private readonly Timer timer = new() { Interval = 1000 };
+    private readonly System.Windows.Forms.Timer timer = new() { Interval = 1000 };
     private readonly Label dateLabel = new();
     private readonly Label currentLabel = new();
     private readonly FlowLayoutPanel list = new();
