@@ -1,0 +1,279 @@
+{
+    "Title":  "电子课表",
+    "appearance":  {
+                       "Opacity":  0.9,
+                       "AnimateExpand":  true
+                   },
+    "Lessons":  [
+                    {
+                        "Day":  1,
+                        "Start":  "08:00",
+                        "End":  "08:45",
+                        "Name":  "语文",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  1,
+                        "Start":  "08:55",
+                        "End":  "09:40",
+                        "Name":  "数学",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  1,
+                        "Start":  "09:50",
+                        "End":  "10:35",
+                        "Name":  "英语",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  1,
+                        "Start":  "10:45",
+                        "End":  "11:30",
+                        "Name":  "物理",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  1,
+                        "Start":  "14:00",
+                        "End":  "14:45",
+                        "Name":  "化学",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  1,
+                        "Start":  "14:55",
+                        "End":  "15:40",
+                        "Name":  "体育",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  1,
+                        "Start":  "15:50",
+                        "End":  "16:35",
+                        "Name":  "历史",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  2,
+                        "Start":  "08:00",
+                        "End":  "08:45",
+                        "Name":  "数学",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  2,
+                        "Start":  "08:55",
+                        "End":  "09:40",
+                        "Name":  "语文",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  2,
+                        "Start":  "09:50",
+                        "End":  "10:35",
+                        "Name":  "生物",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  2,
+                        "Start":  "10:45",
+                        "End":  "11:30",
+                        "Name":  "英语",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  2,
+                        "Start":  "14:00",
+                        "End":  "14:45",
+                        "Name":  "地理",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  2,
+                        "Start":  "14:55",
+                        "End":  "15:40",
+                        "Name":  "信息",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  2,
+                        "Start":  "15:50",
+                        "End":  "16:35",
+                        "Name":  "班会",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  2,
+                        "Start":  "15:50",
+                        "End":  "16:35",
+                        "Name":  "自习",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  3,
+                        "Start":  "08:00",
+                        "End":  "08:45",
+                        "Name":  "英语",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  3,
+                        "Start":  "08:55",
+                        "End":  "09:40",
+                        "Name":  "物理",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  3,
+                        "Start":  "09:50",
+                        "End":  "10:35",
+                        "Name":  "数学",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  3,
+                        "Start":  "10:45",
+                        "End":  "11:30",
+                        "Name":  "语文",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  3,
+                        "Start":  "14:00",
+                        "End":  "14:45",
+                        "Name":  "化学",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  3,
+                        "Start":  "14:55",
+                        "End":  "15:40",
+                        "Name":  "历史",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  3,
+                        "Start":  "15:50",
+                        "End":  "16:35",
+                        "Name":  "体育",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  4,
+                        "Start":  "08:00",
+                        "End":  "08:45",
+                        "Name":  "生物",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  4,
+                        "Start":  "08:55",
+                        "End":  "09:40",
+                        "Name":  "英语",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  4,
+                        "Start":  "09:50",
+                        "End":  "10:35",
+                        "Name":  "语文",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  4,
+                        "Start":  "10:45",
+                        "End":  "11:30",
+                        "Name":  "数学",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  4,
+                        "Start":  "14:00",
+                        "End":  "14:45",
+                        "Name":  "物理",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  4,
+                        "Start":  "14:55",
+                        "End":  "15:40",
+                        "Name":  "美术",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  4,
+                        "Start":  "15:50",
+                        "End":  "16:35",
+                        "Name":  "音乐",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  5,
+                        "Start":  "08:00",
+                        "End":  "08:45",
+                        "Name":  "语文",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  5,
+                        "Start":  "08:55",
+                        "End":  "09:40",
+                        "Name":  "化学",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  5,
+                        "Start":  "09:50",
+                        "End":  "10:35",
+                        "Name":  "英语",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  5,
+                        "Start":  "10:45",
+                        "End":  "11:30",
+                        "Name":  "地理",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  5,
+                        "Start":  "14:00",
+                        "End":  "14:45",
+                        "Name":  "生物",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  5,
+                        "Start":  "14:55",
+                        "End":  "15:40",
+                        "Name":  "体育",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  5,
+                        "Start":  "15:50",
+                        "End":  "16:35",
+                        "Name":  "社团",
+                        "Date":  null
+                    },
+                    {
+                        "Day":  5,
+                        "Start":  "15:50",
+                        "End":  "16:35",
+                        "Name":  "自习",
+                        "Date":  null
+                    }
+                ],
+    "overrides":  [
+
+                  ],
+    "reminders":  {
+                      "Enabled":  true,
+                      "PrepareMinutes":  2,
+                      "Prepare":  true,
+                      "Start":  true,
+                      "End":  true,
+                      "BannerSeconds":  8
+                  }
+}
