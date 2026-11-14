@@ -190,8 +190,8 @@ public abstract class OverlayForm : Form
             return;
         }
 
-        // 先直接设到目标高度，保证内容区按最终尺寸布局；视觉过渡交给窗口拉伸，
-        // 不依赖定时器逐帧改 Height（逐帧改会被后续 Relayout 覆盖，容易出现收起后弹回）。
+        // 记录起止高度，由定时器按 ease-out 曲线逐帧更新窗口高度。
+        // 子控件按最终尺寸布局，窗口区域会在 OnResize 中同步更新。
         if (Height == targetHeight)
             return;
 
