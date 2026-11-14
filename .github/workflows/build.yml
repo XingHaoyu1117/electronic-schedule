@@ -5,6 +5,11 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+# 同一分支只保留最新一次构建，避免连续提交时排队运行旧版本。
+concurrency:
+  group: electronic-schedule-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: windows-latest
