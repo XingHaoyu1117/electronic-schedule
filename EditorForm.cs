@@ -38,6 +38,8 @@ public sealed class EditorForm : Form
 
         Text = "课表设置";
         StartPosition = FormStartPosition.CenterScreen;
+        AutoScaleMode = AutoScaleMode.Dpi;
+        AutoScaleDimensions = new SizeF(96f, 96f);
         ClientSize = new Size(900, 620);
         MinimumSize = new Size(760, 500);
         Font = new Font("Microsoft YaHei UI", 10f);
