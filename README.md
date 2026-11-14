@@ -146,6 +146,16 @@
 
 建议优先使用程序自带的编辑器修改配置。手动编辑 JSON 后，请确保格式正确，再通过托盘菜单重新载入。
 
+## 自动化测试
+
+项目包含 `tests/ElectronicSchedule.Tests` 测试项目，覆盖每周课程筛选、当前课程判断、临时调课覆盖与取消。GitHub Actions 会先运行测试，全部通过后才发布 Windows x64 程序。
+
+本地运行测试：
+
+```powershell
+dotnet test tests/ElectronicSchedule.Tests/ElectronicSchedule.Tests.csproj -c Release
+```
+
 ## 构建项目
 
 ### 环境要求
