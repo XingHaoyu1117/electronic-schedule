@@ -268,6 +268,15 @@ public sealed class TopBarForm : OverlayForm
         bannerUntil = now.AddSeconds(Math.Max(3, Schedule.Reminders.BannerSeconds));
     }
 
+    protected override void OnResize(EventArgs e)
+    {
+        base.OnResize(e);
+
+        // 动画逐帧改变窗口高度时同步更新圆角区域，避免边缘残留。
+        if (IsHandleCreated && Width > 0 && Height > 0)
+            ApplyRoundedRegion(Radius);
+    }
+
     protected override void Relayout()
     {
         int padX = S(PadX);
