@@ -136,6 +136,53 @@ public sealed class Schedule
         }
     }
 
+    /// <summary>从上一份有效备份恢复 schedule.json。恢复前保留当前文件。</summary>
+    public static bool TryRestoreBackup(out string message)
+    {
+        string backupPath = FilePath + ".bak";
+        string restorePath = FilePath + ".restore.tmp";
+
+        try
+        {
+            if (!File.Exists(backupPath))
+            {
+                message = "没有找到 schedule.json.bak。";
+                return false;
+            }
+
+            string json = File.ReadAllText(backupPath, Encoding.UTF8);
+            var candidate = JsonSerializer.Deserialize<Schedule>(json, Options);
+            if (candidate is null || candidate.Lessons is null)
+            {
+                message = "备份文件内容无效，未进行恢复。";
+                return false;
+            }
+
+            File.WriteAllText(restorePath, json, new UTF8Encoding(false));
+
+            if (File.Exists(FilePath))
+                File.Copy(FilePath, FilePath + ".before-restore", overwrite: true);
+
+            File.Move(restorePath, FilePath, overwrite: true);
+            message = "已从备份恢复课表。";
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Log.Write(ex);
+            message = "恢复失败：" + ex.Message;
+            return false;
+        }
+        finally
+        {
+            if (File.Exists(restorePath))
+            {
+                try { File.Delete(restorePath); }
+                catch (Exception ex) { Log.Write(ex); }
+            }
+        }
+    }
+
     public static Schedule LoadOrDefault()
     {
         try
