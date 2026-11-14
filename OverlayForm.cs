@@ -192,10 +192,14 @@ public abstract class OverlayForm : Form
 
         // 先直接设到目标高度，保证内容区按最终尺寸布局；视觉过渡交给窗口拉伸，
         // 不依赖定时器逐帧改 Height（逐帧改会被后续 Relayout 覆盖，容易出现收起后弹回）。
+        if (Height == targetHeight)
+            return;
+
         transitionFromHeight = Height;
         transitionToHeight = targetHeight;
-        Height = targetHeight;
+        transitionStart = DateTime.Now;
         HeightChanged?.Invoke();
+        transition.Start();
     }
 
     private void StepTransition()
