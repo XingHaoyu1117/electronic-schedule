@@ -48,6 +48,14 @@ public sealed class EditorForm : Form
         Controls.Add(BuildHeader());
 
         LoadDay(DayNumber(DateTime.Today.DayOfWeek));
+
+        var conflictDays = Enumerable.Range(1, 7)
+            .Where(day => HasOverlaps(working.Lessons.Where(l => l.Day == day)))
+            .Select(day => DayNames[day - 1])
+            .ToList();
+
+        if (conflictDays.Count > 0)
+            statusLabel.Text = "现有课表有时间重叠：" + string.Join("、", conflictDays) + "；请检查";
     }
 
     private Control BuildHeader()
@@ -247,6 +255,26 @@ public sealed class EditorForm : Form
         stack.Controls.Add(extra);
         stack.Controls.Add(footer);
         return stack;
+    }
+
+    private static bool HasOverlaps(IEnumerable<Lesson> source)
+    {
+        var ordered = source.OrderBy(l => l.StartTime).ToList();
+        if (ordered.Count < 2)
+            return false;
+
+        TimeSpan latestEnd = ordered[0].EndTime;
+
+        for (int i = 1; i < ordered.Count; i++)
+        {
+            if (ordered[i].StartTime < latestEnd)
+                return true;
+
+            if (ordered[i].EndTime > latestEnd)
+                latestEnd = ordered[i].EndTime;
+        }
+
+        return false;
     }
 
     private int DayNumber(DayOfWeek day) => day == DayOfWeek.Sunday ? 7 : (int)day;
@@ -489,6 +517,24 @@ public sealed class EditorForm : Form
                 End = $"{end.Hours:00}:{end.Minutes:00}",
                 Name = name
             });
+        }
+
+        // 同一天的课程时间不能重叠，否则当前课程判断和铃声提醒会产生歧义。
+        for (int i = 0; i < lessons.Count; i++)
+        {
+            for (int j = i + 1; j < lessons.Count; j++)
+            {
+                var first = lessons[i];
+                var second = lessons[j];
+
+                if (first.StartTime < second.EndTime && second.StartTime < first.EndTime)
+                {
+                    MessageBox.Show(this,
+                        $"「{first.Name}」({first.Start}-{first.End}) 与「{second.Name}」({second.Start}-{second.End}) 时间重叠，请先调整。",
+                        "课程时间冲突", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
         }
 
         // 只替换当前这一天，其它天的课程原样保留。
