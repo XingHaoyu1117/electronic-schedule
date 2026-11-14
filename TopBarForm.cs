@@ -39,6 +39,9 @@ public sealed class TopBarForm : OverlayForm
     private readonly Panel progressFill = new();
     private readonly LessonList list;
     private readonly NotifyIcon tray;
+    private ToolStripMenuItem? reminderMenuItem;
+    private ToolStripMenuItem? autoStartMenuItem;
+    private bool syncingTrayMenu;
 
 
     private readonly Font dateFont = new("Microsoft YaHei UI", 9.5f);
@@ -367,27 +370,31 @@ public sealed class TopBarForm : OverlayForm
     {
         var menu = new ContextMenuStrip();
 
-        var reminderItem = new ToolStripMenuItem("上下课提醒")
+        reminderMenuItem = new ToolStripMenuItem("上下课提醒")
         {
             CheckOnClick = true,
             Checked = Schedule.Reminders.Enabled
         };
-        reminderItem.CheckedChanged += (_, _) =>
+        reminderMenuItem.CheckedChanged += (_, _) =>
         {
-            Schedule.Reminders.Enabled = reminderItem.Checked;
+            if (syncingTrayMenu) return;
+            Schedule.Reminders.Enabled = reminderMenuItem.Checked;
             SaveQuietly();
         };
 
-        var autoStartItem = new ToolStripMenuItem("开机自动启动")
+        autoStartMenuItem = new ToolStripMenuItem("开机自动启动")
         {
             CheckOnClick = true,
             Checked = AutoStart.Enabled
         };
-        autoStartItem.CheckedChanged += (_, _) =>
+        autoStartMenuItem.CheckedChanged += (_, _) =>
         {
-            if (!AutoStart.Set(autoStartItem.Checked))
+            if (syncingTrayMenu) return;
+            if (!AutoStart.Set(autoStartMenuItem.Checked))
             {
-                autoStartItem.Checked = !autoStartItem.Checked;
+                syncingTrayMenu = true;
+                autoStartMenuItem.Checked = !autoStartMenuItem.Checked;
+                syncingTrayMenu = false;
                 MessageBox.Show("无法修改开机启动项，可能是权限不足。", "电子课表",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -396,11 +403,12 @@ public sealed class TopBarForm : OverlayForm
         menu.Items.Add("编辑课表…", null, (_, _) => OpenEditor());
         menu.Items.Add("展开/收起课表", null, (_, _) => ToggleExpand());
         menu.Items.Add(new ToolStripSeparator());
-        menu.Items.Add(reminderItem);
+        menu.Items.Add(reminderMenuItem);
         menu.Items.Add("试听铃声", null, (_, _) => Chime.Preview());
-        menu.Items.Add(autoStartItem);
+        menu.Items.Add(autoStartMenuItem);
         menu.Items.Add(new ToolStripSeparator());
-        menu.Items.Add("重新载入课表", null, (_, _) => ReloadSchedule());
+        menu.Items.Add("重新载入课表", null, (_, _) => ReloadFromTray());
+        menu.Items.Add("恢复上次课表备份…", null, (_, _) => RestoreScheduleBackup());
         menu.Items.Add("退出", null, (_, _) => Close());
 
         var icon = new NotifyIcon
@@ -413,6 +421,47 @@ public sealed class TopBarForm : OverlayForm
 
         icon.DoubleClick += (_, _) => OpenEditor();
         return icon;
+    }
+
+    private void ReloadFromTray()
+    {
+        ReloadSchedule();
+        SyncTrayMenu();
+    }
+
+    private void SyncTrayMenu()
+    {
+        syncingTrayMenu = true;
+        try
+        {
+            if (reminderMenuItem is not null)
+                reminderMenuItem.Checked = Schedule.Reminders.Enabled;
+            if (autoStartMenuItem is not null)
+                autoStartMenuItem.Checked = AutoStart.Enabled;
+        }
+        finally
+        {
+            syncingTrayMenu = false;
+        }
+    }
+
+    private void RestoreScheduleBackup()
+    {
+        if (MessageBox.Show(this,
+                "将使用 schedule.json.bak 覆盖当前课表。当前文件会另存为 schedule.json.before-restore。继续吗？",
+                "恢复课表备份", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
+            return;
+
+        if (Schedule.TryRestoreBackup(out string message))
+        {
+            ReloadSchedule();
+            SyncTrayMenu();
+            MessageBox.Show(this, message, "恢复课表", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        else
+        {
+            MessageBox.Show(this, message, "恢复课表", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
     }
 
     /// <summary>托盘开关改动后写回配置，失败不打断使用。</summary>
@@ -434,7 +483,10 @@ public sealed class TopBarForm : OverlayForm
         editor.ShowDialog();
 
         if (editor.Saved)
+        {
             ReloadSchedule();
+            SyncTrayMenu();
+        }
     }
 
     private static Icon CreateTrayIcon()
