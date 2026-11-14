@@ -109,7 +109,31 @@ public sealed class Schedule
             Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) }
         };
 
-        File.WriteAllText(FilePath, JsonSerializer.Serialize(this, options), new UTF8Encoding(false));
+        string json = JsonSerializer.Serialize(this, options);
+        string temporaryPath = FilePath + ".tmp";
+        string backupPath = FilePath + ".bak";
+
+        try
+        {
+            // 先完整写入临时文件；原配置只有在新文件写入成功后才会被替换。
+            File.WriteAllText(temporaryPath, json, new UTF8Encoding(false));
+
+            if (File.Exists(FilePath))
+            {
+                // 留存上一份有效配置，便于误操作或异常时恢复。
+                File.Copy(FilePath, backupPath, overwrite: true);
+                File.Move(temporaryPath, FilePath, overwrite: true);
+            }
+            else
+            {
+                File.Move(temporaryPath, FilePath);
+            }
+        }
+        finally
+        {
+            if (File.Exists(temporaryPath))
+                File.Delete(temporaryPath);
+        }
     }
 
     public static Schedule LoadOrDefault()
