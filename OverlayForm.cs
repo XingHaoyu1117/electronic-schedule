@@ -57,6 +57,7 @@ public abstract class OverlayForm : Form
     protected OverlayForm(Schedule schedule, Color background)
     {
         Schedule = schedule;
+        UpdateScale();
 
         Text = schedule.Title;
         FormBorderStyle = FormBorderStyle.None;
@@ -80,6 +81,16 @@ public abstract class OverlayForm : Form
     /// <summary>按当前 DPI 缩放一个 96 DPI 下的设计值。</summary>
     protected int S(int value) => (int)Math.Round(value * scale);
 
+    /// <summary>按屏幕宽度和系统 DPI 缩放字体，1920 宽屏上提高后排可读性。</summary>
+    protected float SF(float value) => value * scale;
+
+    private void UpdateScale()
+    {
+        float dpiScale = Math.Max(1f, DeviceDpi / 96f);
+        float screenScale = Math.Clamp(PrimaryArea.Width / 1440f, 1f, 1.4f);
+        scale = dpiScale * screenScale;
+    }
+
     protected override bool ShowWithoutActivation => true;
 
     protected override CreateParams CreateParams
@@ -95,14 +106,15 @@ public abstract class OverlayForm : Form
     protected override void OnShown(EventArgs e)
     {
         base.OnShown(e);
-        Relayout();
         Tick();
+        Relayout();
         clock.Start();
     }
 
     protected override void OnDpiChanged(DpiChangedEventArgs e)
     {
         base.OnDpiChanged(e);
+        UpdateScale();
         Relayout();
         OnContentInvalidated();
     }
@@ -142,7 +154,7 @@ public abstract class OverlayForm : Form
 
     private void Tick()
     {
-        scale = Math.Max(1f, DeviceDpi / 96f);
+        UpdateScale();
         var now = DateTime.Now;
         OnTick(now);
         TickFullscreen(now);
