@@ -14,10 +14,10 @@ public sealed class TopBarForm : OverlayForm
     private const int Radius = 10;
     private const int PadX = 12;
     private const int Gap = 7;
-    private const int DateWidth = 158;
+    private const int DateWidth = 190;
     private const int CurrentWidth = 210;
     private const int NextWidth = 140;
-    private const int ClockWidth = 132;
+    private const int ClockWidth = 180;
     private const int OverrideChip = 18;
     private const int RowHeight = 58;
     private const int RowGap = 4;
@@ -94,6 +94,12 @@ public sealed class TopBarForm : OverlayForm
         }
 
         clockLabel.TextAlign = ContentAlignment.MiddleCenter;
+        clockLabel.AutoSize = false;
+        clockLabel.UseMnemonic = false;
+        clockLabel.AutoEllipsis = false;
+        dateLabel.AutoSize = false;
+        dateLabel.UseMnemonic = false;
+        dateLabel.AutoEllipsis = false;
         // 日期和时钟属于固定信息，给足宽度并禁止省略号截断。
         dateLabel.AutoEllipsis = false;
         clockLabel.AutoEllipsis = false;
