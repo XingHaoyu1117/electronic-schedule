@@ -26,12 +26,12 @@ jobs:
         run: dotnet test tests/ElectronicSchedule.Tests/ElectronicSchedule.Tests.csproj -c Release
 
       - name: Publish
-        run: dotnet publish ElectronicSchedule.csproj -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true
+        run: dotnet publish ElectronicSchedule.csproj -c Release -r win-x64 --self-contained false /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true
 
       - name: Upload application package
         uses: actions/upload-artifact@v7
         with:
-          name: 电子课表-测试版-win-x64
+          name: 电子课表-轻量版-win-x64
           path: |
             bin/Release/net8.0-windows/win-x64/publish/电子课表.exe
             bin/Release/net8.0-windows/win-x64/publish/schedule.json
