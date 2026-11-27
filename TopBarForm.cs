@@ -44,13 +44,13 @@ public sealed class TopBarForm : OverlayForm
     private bool syncingTrayMenu;
 
 
-    private readonly Font dateFont = new("Microsoft YaHei UI", 9.5f);
-    private readonly Font currentFont = new("Microsoft YaHei UI", 12f, FontStyle.Bold);
-    private readonly Font secondaryFont = new("Microsoft YaHei UI", 9f);
-    private readonly Font clockFont = new("Consolas", 11f, FontStyle.Bold);
-    private readonly Font rowFont = new("Microsoft YaHei UI", 9.5f);
-    private readonly Font rowFontActive = new("Microsoft YaHei UI", 9.5f, FontStyle.Bold);
-    private readonly Font chipFont = new("Microsoft YaHei UI", 8.5f, FontStyle.Bold);
+    private readonly Font dateFont;
+    private readonly Font currentFont;
+    private readonly Font secondaryFont;
+    private readonly Font clockFont;
+    private readonly Font rowFont;
+    private readonly Font rowFontActive;
+    private readonly Font chipFont;
 
     private bool expanded;
     private Lesson? current;
@@ -67,6 +67,15 @@ public sealed class TopBarForm : OverlayForm
 
     public TopBarForm(Schedule schedule) : base(schedule, Color.FromArgb(26, 30, 36))
     {
+        // 1920×1080 下整体放大约 33%，兼顾教室后排的可读性。
+        dateFont = new Font("Microsoft YaHei UI", SF(11.5f));
+        currentFont = new Font("Microsoft YaHei UI", SF(14.5f), FontStyle.Bold);
+        secondaryFont = new Font("Microsoft YaHei UI", SF(11.5f));
+        clockFont = new Font("Consolas", SF(13f), FontStyle.Bold);
+        rowFont = new Font("Microsoft YaHei UI", SF(11.5f));
+        rowFontActive = new Font("Microsoft YaHei UI", SF(11.5f), FontStyle.Bold);
+        chipFont = new Font("Microsoft YaHei UI", SF(10f), FontStyle.Bold);
+
         dateLabel.Font = dateFont;
         dateLabel.ForeColor = Color.FromArgb(214, 220, 228);
         currentLabel.Font = currentFont;
