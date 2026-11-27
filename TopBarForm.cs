@@ -15,11 +15,11 @@ public sealed class TopBarForm : OverlayForm
     private const int PadX = 12;
     private const int Gap = 7;
     private const int DateWidth = 132;
-    private const int CurrentWidth = 196;
-    private const int NextWidth = 100;
+    private const int CurrentWidth = 210;
+    private const int NextWidth = 140;
     private const int ClockWidth = 88;
     private const int OverrideChip = 18;
-    private const int RowHeight = 38;
+    private const int RowHeight = 58;
     private const int RowGap = 4;
     private const int TopMargin = 0;
 
