@@ -19,9 +19,10 @@
 
 ## 快速开始
 
-1. 从仓库下载 电子课表.exe。
-2. 将 电子课表.exe 与 schedule.json 放在同一个文件夹中。
-3. 双击运行。程序启动后会显示在屏幕顶部，并在系统托盘中保留图标。
+1. 下载并解压「电子课表-轻量版-win-x64」构建产物。
+2. 将 电子课表.exe 与 schedule.json 放在同一个文件夹中（构建产物已同时提供这两个文件）。
+3. Windows 电脑需要安装 .NET 8 Desktop Runtime x64；已安装 .NET 8 SDK 的电脑通常已具备所需运行环境。
+4. 双击 电子课表.exe。程序启动后会显示在屏幕顶部，并在系统托盘中保留图标。
 4. 右键托盘中的绿色「课」字图标，可以打开菜单。
 
 退出程序请使用托盘菜单中的「退出」，不要通过任务管理器结束进程。
@@ -171,7 +172,7 @@ dotnet test tests/ElectronicSchedule.Tests/ElectronicSchedule.Tests.csproj -c Re
 在项目根目录执行：
 
 ```powershell
-dotnet publish ElectronicSchedule.csproj -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true
+dotnet publish ElectronicSchedule.csproj -c Release -r win-x64 --self-contained false /p:PublishSingleFile=true
 ```
 
 发布文件位于：
@@ -180,11 +181,11 @@ dotnet publish ElectronicSchedule.csproj -c Release -r win-x64 --self-contained 
 bin/Release/net8.0-windows/win-x64/publish/
 ```
 
-项目文件配置为单文件、自包含发布。发布目录中会包含可执行程序及随程序复制的 schedule.json。
+项目文件配置为单文件、依赖框架发布。目标电脑需要安装 .NET 8 Desktop Runtime x64；这样生成的程序包明显小于自包含版本。发布目录中会包含可执行程序及随程序复制的 schedule.json。
 
 ### GitHub Actions
 
-仓库已配置 GitHub Actions 工作流：推送到 main 分支，或在 Actions 页面手动运行工作流，会执行 Windows x64 发布，并上传名为「电子课表-测试版-win-x64」的构建产物（Artifact）。构建产物同时包含 `电子课表.exe` 和 `schedule.json`，下载后解压即可将两者放在同一目录运行。
+仓库已配置 GitHub Actions 工作流：推送到 main 分支，或在 Actions 页面手动运行工作流，会执行 Windows x64 发布，并上传名为「电子课表-轻量版-win-x64」的构建产物（Artifact）。构建产物同时包含 `电子课表.exe` 和 `schedule.json`，下载后解压即可将两者放在同一目录运行。
 
 目前工作流负责构建并上传 Artifact；下载构建产物请进入仓库的 Actions 页面，打开对应运行记录，在 Artifacts 区域下载。
 
